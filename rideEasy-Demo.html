@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RideEasy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; color: #111; background: #f5f5f0; }
+
+    /* HERO */
+    .hero {
+      background: #0a0a0a;
+      color: #fff;
+      padding: 3rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: #1a3a2a;
+      opacity: 0.6;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -40px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: #1a2a3a;
+      opacity: 0.5;
+    }
+    .hero-inner { position: relative; z-index: 1; }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 2rem;
+    }
+    .logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      letter-spacing: -1px;
+    }
+    .hero p {
+      font-size: 15px;
+      color: #aaa;
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* SECTION */
+    .section { padding: 2.5rem 1.5rem; background: #fff; }
+    .section-alt { background: #f5f5f0; }
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 1.25rem;
+    }
+
+    /* VEHICLE CARDS */
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .vehicle-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    .vehicle-card.ev { border-top: 3px solid #22c55e; }
+    .vehicle-card.petrol { border-top: 3px solid #f59e0b; }
+    .vehicle-icon { font-size: 36px; margin-bottom: 10px; }
+    .vehicle-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .vehicle-sub { font-size: 13px; color: #888; line-height: 1.5; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 10px;
+      letter-spacing: 0.3px;
+    }
+    .badge-ev { background: #dcfce7; color: #166534; }
+    .badge-petrol { background: #fef9c3; color: #854d0e; }
+
+    /* WHY SECTION */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .why-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .why-icon { font-size: 22px; margin-bottom: 6px; }
+    .why-label { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .why-sub { font-size: 12px; color: #888; }
+
+    /* CTA SECTION */
+    .cta-section { padding: 2rem 1.5rem; background: #fff; }
+    .cta-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fff;
+    }
+    .cta-icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 22px;
+    }
+    .cta-icon-inquiry { background: #dcfce7; }
+    .cta-icon-complaint { background: #fef9c3; }
+    .cta-body { flex: 1; }
+    .cta-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .cta-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-primary { background: #15803d; color: #fff; }
+    .btn-primary:hover { background: #166534; }
+    .btn-secondary { background: #111; color: #fff; }
+    .btn-secondary:hover { background: #333; }
+
+    /* FOOTER */
+    .footer {
+      background: #0a0a0a;
+      color: #666;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .footer-logo span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+    }
+
+    /* ===================== MODAL ===================== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .modal-title-wrap { display: flex; align-items: center; gap: 10px; }
+    .modal-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .modal-icon-lead { background: #dcfce7; }
+    .modal-icon-case { background: #fef9c3; }
+    .modal-title { font-size: 16px; font-weight: 600; }
+    .modal-subtitle { font-size: 12px; color: #888; margin-top: 1px; }
+    .modal-close {
+      background: #f5f5f5;
+      border: none;
+      border-radius: 50%;
+      width: 30px; height: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #666;
+    }
+    .modal-close:hover { background: #eee; }
+
+    .modal-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+    /* FORM STYLES */
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Segoe UI', sans-serif;
+      color: #111;
+      background: #fafafa;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #22c55e;
+      background: #fff;
+      outline: none;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.15s;
+    }
+    .form-submit-lead { background: #15803d; color: #fff; }
+    .form-submit-lead:hover { background: #166534; }
+    .form-submit-case { background: #111; color: #fff; }
+    .form-submit-case:hover { background: #333; }
+
+    @media (max-width: 400px) {
+      .vehicles-grid, .why-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 28px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="logo"><span class="logo-dot"></span> RideEasy</div>
+    <h1>Smarter rides,<br>your way</h1>
+    <p>Choose between electric and petrol. Built for comfort, made for everyday.</p>
+  </div>
+</div>
+
+<!-- ==================== VEHICLES ==================== -->
+<div class="section">
+  <p class="section-title">Our vehicles</p>
+  <div class="vehicles-grid">
+    <div class="vehicle-card ev">
+      <div class="vehicle-icon">⚡</div>
+      <div class="vehicle-name">EV Activa</div>
+      <div class="vehicle-sub">Zero emissions,<br>silent &amp; smooth</div>
+      <span class="badge badge-ev">Electric</span>
+    </div>
+    <div class="vehicle-card petrol">
+      <div class="vehicle-icon">🛵</div>
+      <div class="vehicle-name">Petrol</div>
+      <div class="vehicle-sub">Reliable &amp;<br>powerful ride</div>
+      <span class="badge badge-petrol">Petrol</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WHY RIDEEASY ==================== -->
+<div class="section section-alt">
+  <p class="section-title">Why RideEasy</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🛡️</div>
+      <div class="why-label">3-year warranty</div>
+      <div class="why-sub">All models covered</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔧</div>
+      <div class="why-label">Free service</div>
+      <div class="why-sub">First 2 services free</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📍</div>
+      <div class="why-label">200+ centres</div>
+      <div class="why-sub">Pan-India network</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💳</div>
+      <div class="why-label">Easy EMI</div>
+      <div class="why-sub">0% for 12 months</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== GET IN TOUCH ==================== -->
+<div class="cta-section">
+  <p class="section-title">Get in touch</p>
+
+  <div class="cta-card">
+    <div class="cta-icon-wrap cta-icon-inquiry">💬</div>
+    <div class="cta-body">
+      <div class="cta-title">Any inquiry?</div>
+      <div class="cta-desc">Interested in EV Activa or petrol? Want pricing, test ride, or any info? Drop us a query.</div>
+      <button class="btn btn-primary" onclick="openModal('leadModal')">✉️ Submit inquiry</button>
+    </div>
+  </div>
+
+  <div class="cta-card">
+    <div class="cta-icon-wrap cta-icon-complaint">⚠️</div>
+    <div class="cta-body">
+      <div class="cta-title">Any complaints?</div>
+      <div class="cta-desc">Facing an issue with your vehicle or service? Raise a complaint and we'll resolve it fast.</div>
+      <button class="btn btn-secondary" onclick="openModal('caseModal')">📋 Raise a complaint</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="footer">
+  <div class="footer-logo"><span></span> RideEasy</div>
+  C-Scheme, Jaipur, Rajasthan — 302001<br>
+  support@rideeasy.in &nbsp;|&nbsp; 1800-XXX-XXXX
+</div>
+
+
+<!-- ==================== LEAD MODAL (Web to Lead) ==================== -->
+<div class="modal-overlay" id="leadModal" onclick="closeOnOverlay(event, 'leadModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon modal-icon-lead">🚗</div>
+        <div>
+          <div class="modal-title">RideEasy Booking</div>
+          <div class="modal-subtitle">We'll get back to you shortly</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('leadModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00Dg5000007sjVZ" method="POST">
+        <input type="hidden" name="oid" value="00Dg5000007sjVZ">
+        <input type="hidden" name="retURL" value="https://krishikasamtani17.github.io/Web-To-Lead-Form/thankyou.html">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input id="first_name" name="first_name" type="text" placeholder="Aarav" required>
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input id="last_name" name="last_name" type="text" placeholder="Sharma" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lead_email">Email</label>
+          <input id="lead_email" name="email" type="email" placeholder="you@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lead_phone">Phone</label>
+          <input id="lead_phone" name="phone" type="text" placeholder="+91 98765 43210" required>
+        </div>
+
+        <input type="hidden" name="lead_source" value="Web">
+
+        <div class="form-group">
+          <label for="vehicle_pref">Vehicle Preference</label>
+          <select id="vehicle_pref" name="00Ng500000F30R3">
+            <option value="Ev">EV Activa</option>
+            <option value="Petrol">Petrol</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="city">Interested City</label>
+          <select id="city" name="00Ng500000F30hB">
+            <option>Jaipur</option>
+            
+            <option>Delhi</option>
+            <option>Udaipur</option>
+            
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="duration">Rental Duration</label>
+          <select id="duration" name="00Ng500000F2a8Q">
+            <option>Hourly</option>
+            <option>Daily</option>
+           
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Estimated Budget</label>
+          <input id="budget" name="00Ng500000F30m1" type="text" placeholder="e.g. ₹500/day">
+        </div>
+
+        <button type="submit" class="form-submit form-submit-lead">🚀 Submit Inquiry</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== CASE MODAL (Web to Case) ==================== -->
+<div class="modal-overlay" id="caseModal" onclick="closeOnOverlay(event, 'caseModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon modal-icon-case">⚠️</div>
+        <div>
+          <div class="modal-title">Raise a Complaint</div>
+          <div class="modal-subtitle">Our team will resolve it promptly</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('caseModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00Dg5000007sjVZ" method="POST">
+        <input type="hidden" name="orgid" value="00Dg5000007sjVZ">
+        <input type="hidden" name="retURL" value="https://github.com/krishikasamtani17">
+
+        <div class="form-group">
+          <label for="case_name">Contact Name</label>
+          <input id="case_name" name="name" maxlength="80" type="text" placeholder="Your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="case_email">Email</label>
+          <input id="case_email" name="email" maxlength="80" type="text" placeholder="you@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="case_phone">Phone</label>
+          <input id="case_phone" name="phone" maxlength="40" type="text" placeholder="+91 98765 43210">
+        </div>
+
+        <div class="form-group">
+          <label for="case_subject">Subject</label>
+          <input id="case_subject" name="subject" maxlength="80" type="text" placeholder="Brief issue title" required>
+        </div>
+
+        <div class="form-group">
+          <label for="case_record_type">Case Type</label>
+          <select id="case_record_type" name="recordType">
+            <option value="">-- Select --</option>
+            <option value="012g50000023gpZ">Complaint</option>
+            <option value="012g50000023gpZ">Feedback</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="case_desc">Description</label>
+          <textarea id="case_desc" name="description" placeholder="Please describe your issue in detail..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit form-submit-case">📋 Submit Complaint</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeOnOverlay(event, id) {
+    if (event.target === document.getElementById(id)) closeModal(id);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeModal('leadModal');
+      closeModal('caseModal');
+    }
+  });
+</script>
+
+</body>
+</html>
